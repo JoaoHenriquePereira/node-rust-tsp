@@ -1,0 +1,8 @@
+[package]
+name = "ga"
+version = "0.1.0"
+authors = ["joaohrpereira <joaohrpereira@gmail.com>"]
+
+[dependencies]
+
+rand="0.3.0"
