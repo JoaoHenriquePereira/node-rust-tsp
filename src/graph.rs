@@ -15,7 +15,7 @@ impl Graph {
     }
 
     pub fn get_map(&mut self) -> Vec<City> {
-    	self.cities
+    	self.cities.clone()
     }
 
 }
@@ -26,20 +26,20 @@ pub struct GraphBuilder {
 
 impl GraphBuilder {
 
-	fn new() -> GraphBuilder {
+	pub fn new() -> GraphBuilder {
 		GraphBuilder {
 			cities: Vec::new(),
 		}
 	}
 
-	pub fn generate_random_graph(&mut self, graph_size: u64) -> &mut GraphBuilder {
+	pub fn generate_random_graph(&mut self, graph_size: usize) -> &mut GraphBuilder {
 
     	self
     }
 
     pub fn finalize(&self) -> Graph {
         Graph { 
-        	cities: self.cities,
+        	cities: self.cities.clone(),
         }
     }
 

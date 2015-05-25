@@ -12,19 +12,23 @@ use tsp::TSP;
 use graph::Graph;
 use graph::GraphBuilder;
 use population::Population;
+use population::PopulationBuilder;
 
 static MUTATION_RATE: f64 = 0.015;
-static TOURNAMENT_SIZE: u64 = 5;
+static TOURNAMENT_SIZE: usize = 5;
 static ELITISM: bool = true;
-static POPULATION_SIZE: u64 = 30;
-static GRAPH_SIZE: u64 = 8;
+static POPULATION_SIZE: usize = 30;
+static GRAPH_SIZE: usize = 8;
 
 fn main() {
 	
 	let cities: Graph = GraphBuilder::new()
 								.generate_random_graph(GRAPH_SIZE)
 								.finalize();
-	let init_routes: Population = Population::generate_random_population(POPULATION_SIZE);
+
+	let init_routes: Population = PopulationBuilder::new()
+								.generate_random_population(POPULATION_SIZE)
+								.finalize();
 	
 	let tsp = TSP::new(init_routes, cities, TOURNAMENT_SIZE, MUTATION_RATE, ELITISM);
 

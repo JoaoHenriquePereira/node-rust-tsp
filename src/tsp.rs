@@ -3,6 +3,7 @@ extern crate rand;
 use rand::Rng;
 
 use population::Population;
+use population::PopulationBuilder;
 use graph::Graph;
 use tour::Tour;
 
@@ -24,7 +25,7 @@ pub struct TSP {
 impl TSP {
 
     /// New travelling salesman constructor
-    fn new(routes: Population, cities: Graph, tournament_size: usize, mutation_rate: f64, elitism: bool) -> TSP {
+    pub fn new(routes: Population, cities: Graph, tournament_size: usize, mutation_rate: f64, elitism: bool) -> TSP {
         TSP {
             routes: routes,
             cities: cities,
@@ -50,7 +51,10 @@ impl GA for TSP {
     fn tournament_selection(&mut self) -> Tour {
 
         let population_size: usize = self.routes.get_population_size();
-        let mut tournament: Population = Population::new(self.tournament_size);
+
+        let mut tournament: Population = PopulationBuilder::new()
+                                                            .generate_empty_with_size(self.tournament_size)
+                                                            .finalize();
 
         for it in 0..self.tournament_size {
             let random_selection = rand::thread_rng().gen_range(0, population_size - 1);

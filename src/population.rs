@@ -6,6 +6,10 @@ pub struct Population {
     tours: Vec<Tour>,
 }
 
+pub struct PopulationBuilder {
+	tours: Vec<Tour>,
+}
+
 impl Population {
 
 	/// Constructor for an empty population with allocated capacity
@@ -43,4 +47,29 @@ impl Population {
 	}
 
 }
+
+impl PopulationBuilder {
+	pub fn new() -> PopulationBuilder {
+		PopulationBuilder {
+			tours: Vec::new(),
+		}
+	}
+
+	pub fn generate_random_population(&mut self, population_size: usize) -> &mut PopulationBuilder {
+
+    	self
+    }
+
+    pub fn generate_empty_with_size(&mut self, population_size: usize) -> &mut PopulationBuilder {
+    	self.tours = Vec::with_capacity(population_size);
+    	self
+    }
+
+    pub fn finalize(&self) -> Population {
+        Population { 
+        	tours: self.tours.clone(),
+        }
+    }
+}
+
 
