@@ -7,13 +7,14 @@ use population::PopulationBuilder;
 use graph::Graph;
 use tour::Tour;
 
-
+/// Genetic algorithm interface definition
 trait GA {
     fn tournament_selection(&mut self) -> Tour;
     fn crossover(&self, parent_1: Tour, parent_2: Tour) -> Tour;
     fn mutate(&self, tour: Tour) -> Tour;
 }
 
+/// Travelling salesman problem structure definition
 pub struct TSP {
     routes: Population,
     cities: Graph,
@@ -48,6 +49,7 @@ impl TSP {
 
 impl GA for TSP {
 
+    /// Select the fittest tours to be parents for crossover
     fn tournament_selection(&mut self) -> Tour {
 
         let population_size: usize = self.routes.get_population_size();
@@ -65,6 +67,7 @@ impl GA for TSP {
 
     }
 
+    /// Crossover two parents 
     fn crossover(&self, parent_1: Tour, parent_2: Tour) -> Tour {
 
         let graph_size: usize = self.cities.get_graph_size();
@@ -80,36 +83,25 @@ impl GA for TSP {
         tour
     }
 
+    /// Mutate the candidate tour by swapping a random city in the tour
     fn mutate(&self, tour: Tour) -> Tour {
 
         let graph_size: usize = self.cities.get_graph_size();
-        let tour: Tour = Tour::new(graph_size);
+        let maybe_mutated_tour: Tour = Tour::new(graph_size);
 
-        /*
-        // Loop through tour cities
-        for(int tourPos1=0; tourPos1 < tour.tourSize(); tourPos1++){
-            // Apply mutation rate
-            if(Math.random() < mutationRate){
-                // Get a second random position in the tour
-                int tourPos2 = (int) (tour.tourSize() * Math.random());
-
-                // Get the cities at target position in tour
-                City city1 = tour.getCity(tourPos1);
-                City city2 = tour.getCity(tourPos2);
-
-                // Swap them around
-                tour.setCity(tourPos2, city1);
-                tour.setCity(tourPos1, city2);
-            }
-        }
-        */
         for it in 0..graph_size - 1 {
             if self.generate_random_rate() < self.mutation_rate {
+                //Changing a random tour
+                let random_tour_index = rand::thread_rng().gen_range(0, graph_size - 1);
+
+                //Get the random_tour_city 
+
+                //Swap the random_tour_index with the current loop index
 
             }
         }
 
-        tour
+        maybe_mutated_tour
 
     }
 
