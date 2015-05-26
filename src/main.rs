@@ -1,10 +1,8 @@
 extern crate rand;
 
 mod tsp;
-
 mod graph;
 mod city;
-
 mod population;
 mod tour;
 
@@ -19,6 +17,7 @@ static TOURNAMENT_SIZE: usize = 5;
 static ELITISM: bool = true;
 static POPULATION_SIZE: usize = 30;
 static GRAPH_SIZE: usize = 8;
+static RUN_SIZE: usize = 100;
 
 fn main() {
 	
@@ -30,6 +29,12 @@ fn main() {
 								.generate_random_population(POPULATION_SIZE)
 								.finalize();
 	
-	let tsp = TSP::new(init_routes, cities, TOURNAMENT_SIZE, MUTATION_RATE, ELITISM);
+	let mut tsp = TSP::new(init_routes, cities, TOURNAMENT_SIZE, MUTATION_RATE, ELITISM);
+
+	for _ in 0..RUN_SIZE {
+		tsp.compute();
+	}
+
+	
 
 }

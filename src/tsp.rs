@@ -1,11 +1,13 @@
 extern crate rand;
 
-use rand::Rng;
+use std::mem::swap;
 
+use rand::Rng;
 use population::Population;
 use population::PopulationBuilder;
 use graph::Graph;
 use tour::Tour;
+use tour::TourBuilder;
 
 /// Genetic algorithm interface definition
 trait GA {
@@ -20,7 +22,7 @@ pub struct TSP {
     cities: Graph,
     tournament_size: usize,
     mutation_rate: f64,
-    elitism: bool,
+    _elitism: bool,
 }
 
 impl TSP {
@@ -32,7 +34,7 @@ impl TSP {
             cities: cities,
             tournament_size: tournament_size,
             mutation_rate: mutation_rate,
-            elitism: elitism,
+            _elitism: elitism,
         }
     }
 
@@ -42,9 +44,38 @@ impl TSP {
     }
 
     pub fn compute(&mut self) {
+        
+        let population_size = self.routes.get_population_size();
+        let mut evolved_routes: Population = PopulationBuilder::new()
+                                .generate_empty_with_size(population_size)
+                                .finalize();
 
+        // lets save the fittest in case
+        let mut elite_offset = 0;
+        if self._elitism {
+            evolved_routes.save_tour(self.routes.get_fittest());
+            elite_offset = 1;
+        }
+
+        // Time to evolve the current population set
+        while elite_offset < population_size {
+
+            // Select
+            let parent_1: Tour = self.tournament_selection();
+            let parent_2: Tour = self.tournament_selection();
+
+            // Crossover
+            let mut child: Tour = self.crossover(parent_1, parent_2);
+
+            // Mutate
+            child = self.mutate(child);
+
+            // Save the result
+            evolved_routes.save_tour(child);
+
+            elite_offset += 1;
+        } 
     }
-
 }
 
 impl GA for TSP {
@@ -58,51 +89,51 @@ impl GA for TSP {
                                                             .generate_empty_with_size(self.tournament_size)
                                                             .finalize();
 
-        for it in 0..self.tournament_size {
-            let random_selection = rand::thread_rng().gen_range(0, population_size - 1);
+        for _ in 0..self.tournament_size {
+            let random_selection = rand::thread_rng().gen_range(0, population_size);
             tournament.save_tour(self.routes.get_tour(random_selection));
         }
 
         tournament.get_fittest()
-
     }
 
     /// Crossover two parents 
     fn crossover(&self, parent_1: Tour, parent_2: Tour) -> Tour {
 
         let graph_size: usize = self.cities.get_graph_size();
-        let tour: Tour = Tour::new(graph_size);
+        let child: Tour = TourBuilder::new()
+                                .generate_empty_with_size(graph_size)
+                                .finalize();
         
-        let starting_city_index = rand::thread_rng().gen_range(0, graph_size - 1);
-        let last_city_index = rand::thread_rng().gen_range(0, graph_size - 1);
+        let mut start_city_index = rand::thread_rng().gen_range(0, graph_size);
+        let mut last_city_index = rand::thread_rng().gen_range(0, graph_size);
 
-        for it in 0..graph_size - 1 {
+        if last_city_index > start_city_index {
+            swap(&mut start_city_index, &mut last_city_index);
+        }
 
+        for it in 0..graph_size {
+
+        }
+
+        child
+    }
+
+    /// Mutate the candidate tour by swapping a random city in the tour
+    fn mutate(&self, mut tour: Tour) -> Tour {
+
+        let graph_size: usize = self.cities.get_graph_size();
+        
+        for it in 0..graph_size {
+            if self.generate_random_rate() < self.mutation_rate {
+                // Changing a random tour
+                let random_tour_index = rand::thread_rng().gen_range(0, graph_size);
+
+                // Swap the random_tour_index with the current loop index
+                tour.alter_swap(random_tour_index, it);
+            }
         }
 
         tour
     }
-
-    /// Mutate the candidate tour by swapping a random city in the tour
-    fn mutate(&self, tour: Tour) -> Tour {
-
-        let graph_size: usize = self.cities.get_graph_size();
-        let maybe_mutated_tour: Tour = Tour::new(graph_size);
-
-        for it in 0..graph_size - 1 {
-            if self.generate_random_rate() < self.mutation_rate {
-                //Changing a random tour
-                let random_tour_index = rand::thread_rng().gen_range(0, graph_size - 1);
-
-                //Get the random_tour_city 
-
-                //Swap the random_tour_index with the current loop index
-
-            }
-        }
-
-        maybe_mutated_tour
-
-    }
-
 }

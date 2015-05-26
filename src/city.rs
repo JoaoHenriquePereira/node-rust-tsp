@@ -1,2 +1,2 @@
 #[derive(Clone)]
-pub struct City (f64, f64);
+pub struct City(pub f64,pub f64);

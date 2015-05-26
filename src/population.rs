@@ -6,26 +6,22 @@ pub struct Population {
     tours: Vec<Tour>,
 }
 
-pub struct PopulationBuilder {
-	tours: Vec<Tour>,
-}
-
 impl Population {
 
 	/// Constructor for an empty population with allocated capacity
-	pub fn new(population_size: usize) -> Population {
+	/*pub fn new(population_size: usize) -> Population {
 		Population {
 			tours: Vec::with_capacity(population_size),
 		}
-	}
+	}*/
 
 	/// Go through all the tours and return the one with best fitness
-	pub fn get_fittest(&self) -> Tour {
+	pub fn get_fittest(&mut self) -> Tour {
 
 		let mut fittest: Tour = self.tours[0].clone();
 
 		for it in 0..self.tours.len() {
-			if fittest.get_fitness() < self.tours[it].get_fitness() {
+			if fittest.calc_fitness() < self.tours[it].calc_fitness() {
 				fittest = self.tours[it].clone();
 			}
 		}		
@@ -38,14 +34,17 @@ impl Population {
 	}
 
 	pub fn save_tour(&mut self, tour: Tour) {
-		let new_tour = tour;
-		self.tours.push(new_tour);
+		self.tours.push(tour);
 	}
 
 	pub fn get_tour(&mut self, index: usize) -> Tour {
 		self.tours[index].clone()
 	}
 
+}
+
+pub struct PopulationBuilder {
+	tours: Vec<Tour>,
 }
 
 impl PopulationBuilder {
