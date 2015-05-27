@@ -1,5 +1,7 @@
-use tour::Tour;
+use graph::Graph;
 use tour::HasFitness;
+use tour::Tour;
+use tour::TourBuilder;
 
 #[derive(Clone)]
 pub struct Population {
@@ -7,13 +9,6 @@ pub struct Population {
 }
 
 impl Population {
-
-	/// Constructor for an empty population with allocated capacity
-	/*pub fn new(population_size: usize) -> Population {
-		Population {
-			tours: Vec::with_capacity(population_size),
-		}
-	}*/
 
 	/// Go through all the tours and return the one with best fitness
 	pub fn get_fittest(&mut self) -> Tour {
@@ -54,11 +49,18 @@ impl PopulationBuilder {
 		}
 	}
 
-	pub fn generate_random_population(&mut self, population_size: usize) -> &mut PopulationBuilder {
-
+	pub fn generate_random_population(&mut self, cities: Graph, population_size: usize) -> &mut PopulationBuilder {
+		for _ in 0..population_size {
+			self.tours.push(
+					TourBuilder::new()
+								.generate_random_tour(cities.clone())
+								.finalize()
+				);
+		}
     	self
     }
 
+    /// Constructor for an empty population with allocated capacity
     pub fn generate_empty_with_size(&mut self, population_size: usize) -> &mut PopulationBuilder {
     	self.tours = Vec::with_capacity(population_size);
     	self

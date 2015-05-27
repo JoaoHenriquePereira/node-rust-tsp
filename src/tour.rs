@@ -1,4 +1,5 @@
 use city::City;
+use graph::Graph;
 
 pub trait HasFitness {
     fn calc_fitness(&mut self) -> f64;
@@ -14,6 +15,14 @@ impl Tour {
 
 	pub fn alter_swap(&mut self, from_swap_index: usize, to_swap_index: usize) {
 		self.tour.swap(from_swap_index, to_swap_index);
+	}
+
+	pub fn save_city(&mut self, city: City) {
+		self.tour.push(city);
+	}
+
+	pub fn get_city(&self, index: usize) -> City {
+		self.tour[index].clone()
 	}
 
 	/// Warning: Method is tightly coupled with the interface
@@ -68,7 +77,7 @@ impl TourBuilder {
 		}
 	}
 
-	pub fn generate_random_tour(&mut self, tour_size: usize) -> &mut TourBuilder {
+	pub fn generate_random_tour(&mut self, graph: Graph) -> &mut TourBuilder {
 
     	self
     }

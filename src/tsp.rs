@@ -2,10 +2,10 @@ extern crate rand;
 
 use std::mem::swap;
 
-use rand::Rng;
+use graph::Graph;
 use population::Population;
 use population::PopulationBuilder;
-use graph::Graph;
+use rand::Rng;
 use tour::Tour;
 use tour::TourBuilder;
 
@@ -36,11 +36,6 @@ impl TSP {
             mutation_rate: mutation_rate,
             _elitism: elitism,
         }
-    }
-
-    /// Generates a rate between 0 and 1
-    fn generate_random_rate(&self) -> f64 {
-        (rand::thread_rng().gen_range(1, 101) / 100) as f64 
     }
 
     pub fn compute(&mut self) {
@@ -76,6 +71,11 @@ impl TSP {
             elite_offset += 1;
         } 
     }
+
+    /// Generates a rate between 0 and 1
+    fn generate_random_rate(&self) -> f64 {
+        (rand::thread_rng().gen_range(1, 101) / 100) as f64 
+    }
 }
 
 impl GA for TSP {
@@ -101,9 +101,8 @@ impl GA for TSP {
     fn crossover(&self, parent_1: Tour, parent_2: Tour) -> Tour {
 
         let graph_size: usize = self.cities.get_graph_size();
-        let child: Tour = TourBuilder::new()
-                                .generate_empty_with_size(graph_size)
-                                .finalize();
+        // Easier way is to clone a parent and change the tours that will be crossed
+        let mut child: Tour = parent_1.clone();
         
         let mut start_city_index = rand::thread_rng().gen_range(0, graph_size);
         let mut last_city_index = rand::thread_rng().gen_range(0, graph_size);
@@ -113,7 +112,12 @@ impl GA for TSP {
         }
 
         for it in 0..graph_size {
-
+            // if it's our crossover section the child will take the first parent's traits
+            if it >= start_city_index && it <= last_city_index {
+                child.save_city(parent_1.get_city(it));
+            } else { // otherwise the remaining city's will come from the second parent
+                child.save_city(parent_2.get_city(it));
+            }
         }
 
         child

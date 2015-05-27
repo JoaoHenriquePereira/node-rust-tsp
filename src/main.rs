@@ -1,23 +1,23 @@
 extern crate rand;
 
-mod tsp;
-mod graph;
 mod city;
+mod graph;
 mod population;
 mod tour;
+mod tsp;
 
-use tsp::TSP;
 use graph::Graph;
 use graph::GraphBuilder;
 use population::Population;
 use population::PopulationBuilder;
+use tsp::TSP;
 
-static MUTATION_RATE: f64 = 0.015;
-static TOURNAMENT_SIZE: usize = 5;
 static ELITISM: bool = true;
+static GRAPH_SIZE: usize = 10;
+static MUTATION_RATE: f64 = 0.015;
 static POPULATION_SIZE: usize = 30;
-static GRAPH_SIZE: usize = 8;
 static RUN_SIZE: usize = 100;
+static TOURNAMENT_SIZE: usize = 5;
 
 fn main() {
 	
@@ -26,7 +26,7 @@ fn main() {
 								.finalize();
 
 	let init_routes: Population = PopulationBuilder::new()
-								.generate_random_population(POPULATION_SIZE)
+								.generate_random_population(cities.clone(), POPULATION_SIZE)
 								.finalize();
 	
 	let mut tsp = TSP::new(init_routes, cities, TOURNAMENT_SIZE, MUTATION_RATE, ELITISM);
@@ -34,7 +34,5 @@ fn main() {
 	for _ in 0..RUN_SIZE {
 		tsp.compute();
 	}
-
-	
 
 }
