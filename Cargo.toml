@@ -2,6 +2,15 @@
 name = "ga"
 version = "0.1.0"
 authors = ["joaohrpereira <joaohrpereira@gmail.com>"]
+license = ""
+readme = "README.md"
+keywords = ["genetic","algorithm"]
+repository = "https://github.com/JoaoHenriquePereira/rust-tsp"
+homepage = "https://github.com/JoaoHenriquePereira/rust-tsp"
+documentation = "http://www.codeandunicorns.com/"
+description = """
+A genetic algorithm implementation in Rust. 
+"""
 
 [dependencies]
 

@@ -1,7 +1,5 @@
 extern crate rand;
 
-use std::mem::swap;
-
 use city::City;
 use rand::Rng;
 
@@ -20,8 +18,8 @@ impl Graph {
     	self.cities.clone()
     }
 
-    fn add_node(&mut self, node: City) {
-        self.cities.push(node);
+    fn get_node_at_index(&self, it: usize) -> City {
+        self.cities[it]
     }
 
 }
@@ -38,9 +36,10 @@ impl GraphBuilder {
 		}
 	}
 
-	pub fn generate_random_graph(&mut self, graph_size: usize) -> &mut GraphBuilder {
+    //Generate a random graph, assuming we always have positive values for x and y on a map
+	pub fn generate_random_graph(&mut self, graph_size: usize, max_x: f64, max_y: f64) -> &mut GraphBuilder {
         for _ in 0..graph_size {
-            let city = City(rand::thread_rng().gen_range(0.0, 100.0), rand::thread_rng().gen_range(0.0, 100.0));
+            let city = City(rand::thread_rng().gen_range(0.0, max_x), rand::thread_rng().gen_range(0.0, max_y));
             self.cities.push(city);
         }
     	self

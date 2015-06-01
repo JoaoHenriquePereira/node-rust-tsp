@@ -1,8 +1,15 @@
+extern crate rand;
+
 use city::City;
 use graph::Graph;
+use rand::{thread_rng, Rng};
 
 pub trait HasFitness {
     fn calc_fitness(&mut self) -> f64;
+}
+
+pub trait IsValidTSPTour {
+	fn is_valid_tsp_tour(tour: Tour, graph: Graph) -> bool;
 }
 
 #[derive(Clone)]
@@ -23,6 +30,10 @@ impl Tour {
 
 	pub fn get_city(&self, index: usize) -> City {
 		self.tour[index].clone()
+	}
+
+	fn tour_size(&self) -> usize {
+		self.tour.len()
 	}
 
 	/// Warning: Method is tightly coupled with the interface
@@ -64,6 +75,36 @@ impl HasFitness for Tour {
 
 }
 
+impl IsValidTSPTour for Tour {
+	/// True if tour contains all cities in the graph and no repeated nodes
+	fn is_valid_tsp_tour(tour: Tour, mut graph: Graph) -> bool {
+
+		let tour_size: usize = tour.tour_size();
+		let graph_size: usize = graph.get_graph_size();
+
+		assert_eq!(true, tour_size == graph_size);
+
+		let map: Vec<City> = graph.get_map();
+
+		let mut counter: u8 = 0;
+
+
+
+		//Shame O(n^2)
+		for it in 0..graph_size {
+			for it2 in 0..tour_size {
+				if map[it] == tour.get_city(it2){
+					counter += 1; 
+				}
+			}
+			assert_eq!(1, counter);
+			counter = 0;
+		}
+
+		true
+	}
+}
+
 pub struct TourBuilder {
 	tour: Vec<City>,
     fitness: f64,
@@ -77,9 +118,10 @@ impl TourBuilder {
 		}
 	}
 
-	pub fn generate_random_tour(&mut self, graph: Graph) -> &mut TourBuilder {
-
-    	self
+	pub fn generate_random_tour(&mut self, mut graph: Graph) -> &mut TourBuilder {
+		self.tour = graph.get_map();
+		thread_rng().shuffle(&mut self.tour);
+		self
     }
 
     pub fn generate_empty_with_size(&mut self, tour_size: usize) -> &mut TourBuilder {

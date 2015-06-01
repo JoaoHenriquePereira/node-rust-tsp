@@ -97,7 +97,7 @@ impl GA for TSP {
         tournament.get_fittest()
     }
 
-    /// Crossover two parents 
+    /// TODO Crossover two parents 
     fn crossover(&self, parent_1: Tour, parent_2: Tour) -> Tour {
 
         let graph_size: usize = self.cities.get_graph_size();
