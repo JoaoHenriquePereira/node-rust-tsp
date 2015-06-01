@@ -28,11 +28,15 @@ impl Tour {
 		self.tour.push(city);
 	}
 
+	pub fn insert_city_at_index(&mut self, index: usize, city: City) {
+		self.tour.insert(index, city);
+	}
+
 	pub fn get_city(&self, index: usize) -> City {
 		self.tour[index].clone()
 	}
 
-	fn tour_size(&self) -> usize {
+	pub fn get_tour_size(&self) -> usize {
 		self.tour.len()
 	}
 
@@ -79,7 +83,7 @@ impl IsValidTSPTour for Tour {
 	/// True if tour contains all cities in the graph and no repeated nodes
 	fn is_valid_tsp_tour(tour: Tour, mut graph: Graph) -> bool {
 
-		let tour_size: usize = tour.tour_size();
+		let tour_size: usize = tour.get_tour_size();
 		let graph_size: usize = graph.get_graph_size();
 
 		assert_eq!(true, tour_size == graph_size);
@@ -88,9 +92,7 @@ impl IsValidTSPTour for Tour {
 
 		let mut counter: u8 = 0;
 
-
-
-		//Shame O(n^2)
+		//Shameful O(n^2)
 		for it in 0..graph_size {
 			for it2 in 0..tour_size {
 				if map[it] == tour.get_city(it2){

@@ -44,6 +44,9 @@ use graph::Graph;
 use graph::GraphBuilder;
 use population::Population;
 use population::PopulationBuilder;
+use tour::HasFitness;
+use tour::Tour;
+use tour::TourBuilder;
 use tsp::TSP;
 
 static ELITISM: bool = true;
@@ -61,15 +64,22 @@ fn main() {
 								.generate_random_graph(GRAPH_SIZE, MAX_X, MAX_Y)
 								.finalize();
 
-	let init_routes: Population = PopulationBuilder::new()
+	let mut init_tours: Population = PopulationBuilder::new()
 								.generate_random_population(cities.clone(), POPULATION_SIZE)
 								.finalize();
-	
 
-	let mut tsp = TSP::new(init_routes, cities, TOURNAMENT_SIZE, MUTATION_RATE, ELITISM);
+	let mut tsp = TSP::new(init_tours.clone(), cities, TOURNAMENT_SIZE, MUTATION_RATE, ELITISM);
+
+	let mut fittest_solution: Tour = init_tours.get_fittest();
+
+	println!("Fittest initial solution {}", fittest_solution.calc_fitness());
 
 	for _ in 0..RUN_SIZE {
 		tsp.compute();
 	}
+
+	fittest_solution = tsp.get_fittest_result();
+
+	println!("Fittest final solution {}", fittest_solution.calc_fitness());
 
 }

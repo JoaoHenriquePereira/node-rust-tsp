@@ -69,7 +69,13 @@ impl TSP {
             evolved_routes.save_tour(child);
 
             elite_offset += 1;
-        } 
+        }
+
+        self.routes = evolved_routes;
+    }
+
+    pub fn get_fittest_result(&mut self) -> Tour{
+        self.routes.get_fittest()
     }
 
     /// Generates a rate between 0 and 1
@@ -102,7 +108,9 @@ impl GA for TSP {
 
         let graph_size: usize = self.cities.get_graph_size();
         // Easier way is to clone a parent and change the tours that will be crossed
-        let mut child: Tour = parent_1.clone();
+        let mut child: Tour = TourBuilder::new()
+                                .generate_empty_with_size(graph_size)
+                                .finalize();
         
         let mut start_city_index = rand::thread_rng().gen_range(0, graph_size);
         let mut last_city_index = rand::thread_rng().gen_range(0, graph_size);
@@ -111,14 +119,30 @@ impl GA for TSP {
             swap(&mut start_city_index, &mut last_city_index);
         }
 
+        let mut city_found: bool = false;
+        // Comment-start: Ugly but does the trick, TODO should apply rust native methods and optimize performance
+        // Get parent 2 heritage, i.e. the cities that are not part of parent 1 heritage (crossover point)
         for it in 0..graph_size {
-            // if it's our crossover section the child will take the first parent's traits
-            if it >= start_city_index && it <= last_city_index {
-                child.save_city(parent_1.get_city(it));
-            } else { // otherwise the remaining city's will come from the second parent
-                child.save_city(parent_2.get_city(it));
+            // Search parent_2 for the cities that are not part of parent_1 heritage (between start_city_index and last_city_index)
+            for it2 in start_city_index..last_city_index {
+                if parent_2.get_city(it) == parent_1.get_city(it2) {
+                    city_found = true;
+                    break;
+                }
             }
+            if !city_found {
+                child.save_city(parent_2.get_city(it));
+            } 
+            city_found = false;
         }
+
+        //Now that we have parent_2 heritage we just need to insert in parent_1's by inserting and pushing the remaining to the right
+        for it in start_city_index..last_city_index {
+            child.insert_city_at_index(it, parent_1.get_city(it));
+        }
+        // Comment-end
+
+        assert_eq!(true, child.get_tour_size() == graph_size);
 
         child
     }
