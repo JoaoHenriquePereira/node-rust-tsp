@@ -40,7 +40,11 @@ impl Tour {
 		self.tour.len()
 	}
 
-	/// Warning: Method is tightly coupled with the interface
+	pub fn sub_tour_between_index(&mut self, start_index: usize, end_index: usize) -> Vec<City> {
+		(start_index..end_index).map(|i| {println!("{}",i);self.tour[i]}).collect::<Vec<City>>()
+	}
+
+	/// Warning: Method is tightly coupled with the interface but remains cohesive
 	fn get_distance(&mut self) -> f64 {
 
 		let mut distance: f64 = 0.0;
