@@ -1,4 +1,6 @@
 //! Unit tests module
+//! Ensure the critical operations pass testing
+//! Status: OnGoing
 //! Guidelines from: https://doc.rust-lang.org/book/testing.html
 
 use graph::Graph;

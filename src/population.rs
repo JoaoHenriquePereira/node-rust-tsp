@@ -28,12 +28,12 @@ impl Population {
 		self.tours.len()
 	}
 
-	pub fn save_tour(&mut self, tour: Tour) {
-		self.tours.push(tour);
-	}
-
 	pub fn get_tour(&mut self, index: usize) -> Tour {
 		self.tours[index].clone()
+	}
+
+	pub fn save_tour(&mut self, tour: Tour) {
+		self.tours.push(tour);
 	}
 
 }
@@ -43,12 +43,21 @@ pub struct PopulationBuilder {
 }
 
 impl PopulationBuilder {
+
+	/// Constructor for an empty population
 	pub fn new() -> PopulationBuilder {
 		PopulationBuilder {
 			tours: Vec::new(),
 		}
 	}
 
+    /// Constructor for an empty population with allocated capacity
+    pub fn generate_empty_with_size(&mut self, population_size: usize) -> &mut PopulationBuilder {
+    	self.tours = Vec::with_capacity(population_size);
+    	self
+    }
+
+    /// Constructor for generating a random population
 	pub fn generate_random_population(&mut self, cities: Graph, population_size: usize) -> &mut PopulationBuilder {
 		for _ in 0..population_size {
 			self.tours.push(
@@ -60,12 +69,7 @@ impl PopulationBuilder {
     	self
     }
 
-    /// Constructor for an empty population with allocated capacity
-    pub fn generate_empty_with_size(&mut self, population_size: usize) -> &mut PopulationBuilder {
-    	self.tours = Vec::with_capacity(population_size);
-    	self
-    }
-
+    /// Terminates construction and returns instance
     pub fn finalize(&self) -> Population {
         Population { 
         	tours: self.tours.clone(),

@@ -24,14 +24,6 @@ impl Tour {
 		self.tour.swap(from_swap_index, to_swap_index);
 	}
 
-	pub fn save_city(&mut self, city: City) {
-		self.tour.push(city);
-	}
-
-	pub fn insert_city_at_index(&mut self, index: usize, city: City) {
-		self.tour.insert(index, city);
-	}
-
 	pub fn get_city(&self, index: usize) -> City {
 		self.tour[index].clone()
 	}
@@ -40,8 +32,16 @@ impl Tour {
 		self.tour.len()
 	}
 
+	pub fn insert_city_at_index(&mut self, index: usize, city: City) {
+		self.tour.insert(index, city);
+	}
+
+	pub fn save_city(&mut self, city: City) {
+		self.tour.push(city);
+	}
+
 	pub fn sub_tour_between_index(&mut self, start_index: usize, end_index: usize) -> Vec<City> {
-		(start_index..end_index).map(|i| {println!("{}",i);self.tour[i]}).collect::<Vec<City>>()
+		(start_index..end_index).map(|i| {self.tour[i]}).collect::<Vec<City>>()
 	}
 
 	/// Warning: Method is tightly coupled with the interface but remains cohesive
@@ -98,7 +98,7 @@ impl IsValidTSPTour for Tour {
 
 		//Shameful O(n^2)
 		for it in 0..graph_size {
-			for it2 in 0..tour_size {
+			for it2 in 0..tour_size { // In all means graph_size == tour_size
 				if map[it] == tour.get_city(it2){
 					counter += 1; 
 				}
@@ -117,6 +117,8 @@ pub struct TourBuilder {
 }
 
 impl TourBuilder {
+
+	/// Constructor for an empty population
 	pub fn new() -> TourBuilder {
 		TourBuilder {
 			tour: Vec::new(),
@@ -124,17 +126,20 @@ impl TourBuilder {
 		}
 	}
 
+	/// Constructor for an empty population with allocated capacity
+    pub fn generate_empty_with_size(&mut self, tour_size: usize) -> &mut TourBuilder {
+    	self.tour = Vec::with_capacity(tour_size);
+    	self
+    }
+
+    /// Constructor for generating a random tour
 	pub fn generate_random_tour(&mut self, mut graph: Graph) -> &mut TourBuilder {
 		self.tour = graph.get_map();
 		thread_rng().shuffle(&mut self.tour);
 		self
     }
 
-    pub fn generate_empty_with_size(&mut self, tour_size: usize) -> &mut TourBuilder {
-    	self.tour = Vec::with_capacity(tour_size);
-    	self
-    }
-
+    /// Terminates construction and returns instance
     pub fn finalize(&self) -> Tour {
         Tour { 
         	tour: self.tour.clone(),

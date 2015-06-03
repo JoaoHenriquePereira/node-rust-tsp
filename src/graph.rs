@@ -30,6 +30,7 @@ pub struct GraphBuilder {
 
 impl GraphBuilder {
 
+    /// Constructor for an empty population
 	pub fn new() -> GraphBuilder {
 		GraphBuilder {
 			cities: Vec::new(),
@@ -45,6 +46,7 @@ impl GraphBuilder {
     	self
     }
 
+    /// Terminates construction and returns instance
     pub fn finalize(&self) -> Graph {
         Graph { 
         	cities: self.cities.clone(),

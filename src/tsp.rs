@@ -74,7 +74,8 @@ impl TSP {
         self.routes = evolved_routes;
     }
 
-    pub fn get_fittest_result(&mut self) -> Tour{
+    /// Returns the current fittest tour
+    pub fn get_fittest_result(&mut self) -> Tour {
         self.routes.get_fittest()
     }
 
@@ -86,24 +87,7 @@ impl TSP {
 
 impl GA for TSP {
 
-    /// Select the fittest tours to be parents for crossover
-    fn tournament_selection(&mut self) -> Tour {
-
-        let population_size: usize = self.routes.get_population_size();
-
-        let mut tournament: Population = PopulationBuilder::new()
-                                                            .generate_empty_with_size(self.tournament_size)
-                                                            .finalize();
-
-        for _ in 0..self.tournament_size {
-            let random_selection = rand::thread_rng().gen_range(0, population_size);
-            tournament.save_tour(self.routes.get_tour(random_selection));
-        }
-
-        tournament.get_fittest()
-    }
-
-    /// TODO Crossover two parents 
+    /// Select a random crossover section from parent 1 and insert it as is in the correct position in parent 2
     fn crossover(&self, mut parent_1: Tour, parent_2: Tour) -> Tour {
 
         let graph_size: usize = self.cities.get_graph_size();
@@ -121,7 +105,7 @@ impl GA for TSP {
 
         let parent_1_crossover_heritage = parent_1.sub_tour_between_index(start_city_index, last_city_index);
 
-        //Our child will result in the original parent_2 heritage by excluding parent_1's traits
+        //Our child will result in the original parent_2 heritage by excluding parent_1's traits and adding them on the crossover
         for it in 0..graph_size {
             if !parent_1_crossover_heritage.contains(&parent_2.get_city(it)) {
                 child.save_city(parent_2.get_city(it));
@@ -155,5 +139,22 @@ impl GA for TSP {
         }
 
         tour
+    }
+
+    /// Select the fittest tours to be parents for crossover
+    fn tournament_selection(&mut self) -> Tour {
+
+        let population_size: usize = self.routes.get_population_size();
+
+        let mut tournament: Population = PopulationBuilder::new()
+                                                            .generate_empty_with_size(self.tournament_size)
+                                                            .finalize();
+
+        for _ in 0..self.tournament_size {
+            let random_selection = rand::thread_rng().gen_range(0, population_size);
+            tournament.save_tour(self.routes.get_tour(random_selection));
+        }
+
+        tournament.get_fittest()
     }
 }
