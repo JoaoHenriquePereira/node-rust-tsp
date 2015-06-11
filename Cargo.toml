@@ -9,9 +9,15 @@ repository = "https://github.com/JoaoHenriquePereira/rust-tsp"
 homepage = "https://github.com/JoaoHenriquePereira/rust-tsp"
 documentation = "http://www.codeandunicorns.com/"
 description = """
-A genetic algorithm implementation in Rust. 
+A genetic algorithm implementation in Rust.
 """
 
 [dependencies]
 
-rand="0.3.0"
+rand 			= "*"
+getopts 		= "*"
+rustc-serialize 	= "*"
+
+[dependencies.mongodb]
+
+path = "../mongo-rust-driver-prototype"

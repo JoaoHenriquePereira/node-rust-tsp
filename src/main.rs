@@ -32,18 +32,24 @@
 //!
 
 extern crate rand;
+extern crate getopts;
+extern crate rustc_serialize;
 
 mod city;
+mod dbio;
 mod graph;
 mod population;
 mod tests;
 mod tour;
 mod tsp;
 
+use getopts::{Options, Matches};
 use graph::Graph;
 use graph::GraphBuilder;
 use population::Population;
 use population::PopulationBuilder;
+use rustc_serialize::{Decodable, Encodable, json};
+use std::env;
 use tour::HasFitness;
 use tour::Tour;
 use tour::TourBuilder;
@@ -58,7 +64,22 @@ static POPULATION_SIZE: usize = 30;
 static RUN_SIZE: usize = 100;
 static TOURNAMENT_SIZE: usize = 5;
 
+fn do_work(inp: &str, out: Option<String>) {
+    println!("{}", inp);
+    match out {
+        Some(x) => println!("{}", x),
+        None => println!("No Output"),
+    }
+}
+
+fn print_usage(program: &str, opts: Options) {
+    let brief = format!("Usage: {} [options]", program);
+    print!("{}", opts.usage(&brief));
+}
+
 fn main() {
+
+	/* Handle input */
 	
 	let cities: Graph = GraphBuilder::new()
 								.generate_random_graph(GRAPH_SIZE, MAX_X, MAX_Y)
@@ -68,10 +89,11 @@ fn main() {
 								.generate_random_population(cities.clone(), POPULATION_SIZE)
 								.finalize();
 
-	let mut tsp = TSP::new(init_tours.clone(), cities, TOURNAMENT_SIZE, MUTATION_RATE, ELITISM);
-
 	let mut fittest_solution: Tour = init_tours.get_fittest();
 
+	let mut tsp = TSP::new(init_tours, cities, TOURNAMENT_SIZE, MUTATION_RATE, ELITISM);
+
+	println!("Tour: {}", fittest_solution);
 	println!("Fittest initial solution {}", fittest_solution.calc_fitness());
 
 	for _ in 0..RUN_SIZE {
@@ -80,6 +102,7 @@ fn main() {
 
 	fittest_solution = tsp.get_fittest_result();
 
+	println!("Tour: {}", fittest_solution);
 	println!("Fittest final solution {}", fittest_solution.calc_fitness());
 
 }

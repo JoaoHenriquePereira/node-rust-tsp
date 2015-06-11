@@ -3,11 +3,15 @@
 //! Status: OnGoing
 //! Guidelines from: https://doc.rust-lang.org/book/testing.html
 
+extern crate rustc_serialize;
+
 use graph::Graph;
 use graph::GraphBuilder;
 
 use population::Population;
 use population::PopulationBuilder;
+
+use rustc_serialize::hex::FromHex;
 
 use tour::Tour;
 use tour::IsValidTSPTour;

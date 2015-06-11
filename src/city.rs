@@ -1,3 +1,5 @@
+extern crate rustc_serialize;
+
 use std::fmt;
 
 #[derive(Clone, Copy)]

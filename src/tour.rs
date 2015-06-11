@@ -1,5 +1,5 @@
 extern crate rand;
-
+use std::fmt;
 use city::City;
 use graph::Graph;
 use rand::{thread_rng, Rng};
@@ -108,6 +108,17 @@ impl IsValidTSPTour for Tour {
 		}
 
 		true
+	}
+}
+
+impl fmt::Display for Tour {
+	fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+		let mut as_string = String::new();
+		for it in 0..self.tour.len(){
+			as_string.push_str( &self.tour[it].to_string() );
+			as_string.push( '\n' );
+		}
+		write!(f, "{}", as_string)
 	}
 }
 
