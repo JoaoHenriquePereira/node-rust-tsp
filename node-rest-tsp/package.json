@@ -8,9 +8,9 @@
 		"chai": "~1.9",
 		"chai-json-schema": "*",
 		"enum": "*",
+		"ffi": "*",
 		"hal": "*",
 		"node-cache": "*",
-		"mongodb": "*",
 		"restify": "*",
 		"supertest": "*",
 		"underscore": "*"
