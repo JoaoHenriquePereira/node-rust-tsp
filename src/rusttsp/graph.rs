@@ -1,6 +1,6 @@
 extern crate rand;
 
-use city::City;
+use rusttsp::city::City;
 use rand::Rng;
 
 #[derive(Clone)]

@@ -1,7 +1,8 @@
 extern crate rand;
+
 use std::fmt;
-use city::City;
-use graph::Graph;
+use rusttsp::city::City;
+use rusttsp::graph::Graph;
 use rand::{thread_rng, Rng};
 
 pub trait HasFitness {

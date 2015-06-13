@@ -5,16 +5,16 @@
 
 extern crate rustc_serialize;
 
-use graph::Graph;
-use graph::GraphBuilder;
+use rusttsp::graph::Graph;
+use rusttsp::graph::GraphBuilder;
 
-use population::Population;
-use population::PopulationBuilder;
+use rusttsp::population::Population;
+use rusttsp::population::PopulationBuilder;
 
 use rustc_serialize::hex::FromHex;
 
-use tour::Tour;
-use tour::IsValidTSPTour;
+use rusttsp::tour::Tour;
+use rusttsp::tour::IsValidTSPTour;
 
 static GRAPH_SIZE: usize = 100;
 static MAX_X: f64 = 100.0;

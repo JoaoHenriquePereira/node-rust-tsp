@@ -1,0 +1,52 @@
+{
+    "title": "compute api input schema v1",
+    "type": "object",
+    "required": ["graph_type", "graph"],
+    "properties": {
+        "graph_type": {
+            "type": "string"
+        },
+        "graph": {
+            "type": "array",
+            "minItems": 10,
+            "uniqueItems": true,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "coordinates": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "options": {
+            "type": "object",
+            "properties": {
+                "mutation_rate": {
+                    "type": "number",
+                    "minimum": "0.0",
+                    "maximum": "1.0"
+                },
+                "elitism": {
+                    "type": "boolean"
+                },
+                "population_size": {
+                    "type": "integer",
+                    "minimum": "5",
+                    "maximum": "3000"
+                },
+                "tournament_size": {
+                    "type": "integer",
+                    "minimum": "2",
+                    "maximum": "3000"
+                }
+            }
+        }
+    }
+}

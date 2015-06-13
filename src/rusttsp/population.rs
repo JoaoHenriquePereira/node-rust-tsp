@@ -1,7 +1,7 @@
-use graph::Graph;
-use tour::HasFitness;
-use tour::Tour;
-use tour::TourBuilder;
+use rusttsp::graph::Graph;
+use rusttsp::tour::HasFitness;
+use rusttsp::tour::Tour;
+use rusttsp::tour::TourBuilder;
 
 #[derive(Clone)]
 pub struct Population {

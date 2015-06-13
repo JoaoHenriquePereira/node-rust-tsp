@@ -1,0 +1,39 @@
+{
+    "title": "result api output schema v1",
+    "type": "object",
+    "required": ["graph", "results","_links"],
+    "properties": {
+        "graph": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "coordinates": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "results": {
+            "type": "object",
+            "properties": {
+                "final_distance": {
+                    "type": "number"
+                },
+                "improvement": {
+                    "type": "number"
+                }
+            }
+        },
+        "_links": {
+            "type": "object"
+        }
+    }
+}

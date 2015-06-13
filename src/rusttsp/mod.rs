@@ -31,18 +31,15 @@
 //! ```
 //!
 
-extern crate rand;
-extern crate getopts;
-extern crate rustc_serialize;
 
-mod city;
-mod dbio;
-mod graph;
-mod population;
-mod tests;
-mod tour;
-mod tsp;
+pub mod city;
+pub mod graph;
+pub mod population;
+pub mod tests;
+pub mod tour;
+pub mod tsp;
 
+/*
 use getopts::{Options, Matches};
 use graph::Graph;
 use graph::GraphBuilder;
@@ -91,7 +88,9 @@ fn main() {
 
 	let mut fittest_solution: Tour = init_tours.get_fittest();
 
-	let mut tsp = TSP::new(init_tours, cities, TOURNAMENT_SIZE, MUTATION_RATE, ELITISM);
+	let model: MongoModel = MongoModel::new();
+
+	/*let mut tsp = TSP::new(init_tours, cities, TOURNAMENT_SIZE, MUTATION_RATE, ELITISM);
 
 	println!("Tour: {}", fittest_solution);
 	println!("Fittest initial solution {}", fittest_solution.calc_fitness());
@@ -103,6 +102,6 @@ fn main() {
 	fittest_solution = tsp.get_fittest_result();
 
 	println!("Tour: {}", fittest_solution);
-	println!("Fittest final solution {}", fittest_solution.calc_fitness());
+	println!("Fittest final solution {}", fittest_solution.calc_fitness());*/
 
-}
+}*/
