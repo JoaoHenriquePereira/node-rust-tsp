@@ -1,28 +1,9 @@
 var assert 			= require('assert');
 	crypto 			= require('crypto');
-	MongoClient 	= require('mongodb').MongoClient;
 	NodeCache		= require('node-cache');
 
 var cache;
 var uri;
-
-/**
- * Inserts a document into our mongodb
- * @param {object}  	db object
- * @param {json}  		json_input_data
- * @param {function} 	callback
- */
-var insertDocuments = function(db, json_input_data, callback) {
-  // Get the documents collection
-  var collection = db.collection('input');
-  // Insert some documents
-  collection.insert(json_input_data, function(err, result) {
-    assert.equal(err, null);
-    assert.equal(1, result.result.n);
-    assert.equal(1, result.ops.length);
-    callback(result);
-  });
-}
 
 /**
  * Represents the ComputeModel for managing results and accessing rust-tsp,
@@ -46,25 +27,8 @@ var ComputeModel = (function () {
 	}
 
 	ComputeModel.prototype.compute = function (json_input_data) {
-		
-		// Generate key
-		var current_date = (new Date()).valueOf().toString();
-		var random = Math.random().toString();
-		var _id = crypto.createHash('sha1').update(current_date + random).digest('hex');
 
-		// Set extra fields
-		json_input_data._id = _id;
-		json_input_data.insert_utimestamp = current_date;
-
-		// Store request in Mongo for rust-tsp usage
-		MongoClient.connect(uri, function(err, db) {
-			assert.equal(null, err);
-			insertDocuments(db, json_input_data, function() {
-    			db.close();
-  			});
-		});
-
-		//Send _id to rust-tsp
+		// Call our lib
 		
 
 		return _id;
