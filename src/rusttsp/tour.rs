@@ -62,8 +62,8 @@ impl Tour {
 				to_city = self.tour[0].clone();
 			}
 
-			let x_dist = (from_city.0 - to_city.0).abs();
-			let y_dist = (from_city.1 - to_city.1).abs();
+			let x_dist = (from_city.x - to_city.x).abs();
+			let y_dist = (from_city.y - to_city.y).abs();
 			distance += ( (x_dist * x_dist) + (y_dist * y_dist) ).sqrt();
 
 		}

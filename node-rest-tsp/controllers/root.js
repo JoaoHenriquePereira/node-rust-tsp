@@ -11,11 +11,6 @@ var hal 	= require('hal');
 
 module.exports.setup = function (server) {
 
-	//Server root GET
-	function root_get(req, res, next) {
-		res.json('{"message": "Hello!"}');
-	}
-
 	//API root GET
 	function api_root_get(req, res, next) {
 
@@ -34,6 +29,5 @@ module.exports.setup = function (server) {
 
 	// Wiring
 	var API_PATH = '/'+pjson.name;
-   	server.get('/', root_get);
    	server.get({path: API_PATH, version: '0.0.1'}, api_root_get);
 }

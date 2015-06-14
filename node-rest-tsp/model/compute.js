@@ -1,9 +1,9 @@
 var assert 			= require('assert');
 	crypto 			= require('crypto');
+	ffi 			= require('ffi');
 	NodeCache		= require('node-cache');
-
+	
 var cache;
-var uri;
 
 /**
  * Represents the ComputeModel for managing results and accessing rust-tsp,
@@ -12,10 +12,15 @@ var uri;
  * @param {number}  checkperiod     the .
  */
 
+
+var library_name = '../target/debug/librust_tsp';
+var rust_tsp_lib = ffi.Library(library_name, {
+		'compute_adapter': ['string', ['string']]
+});
+
 var ComputeModel = (function () {
-  	function ComputeModel(db_config, stdTTL, checkperiod) {
+  	function ComputeModel(stdTTL, checkperiod) {
   		cache = new NodeCache( { stdTTL: stdTTL, checkperiod: checkperiod } );
-  		uri = db_config.db_uri;
   	}
 
 	ComputeModel.prototype.set = function (key, val, ttl) {
@@ -30,6 +35,7 @@ var ComputeModel = (function () {
 
 		// Call our lib
 		
+		console.log(rust_tsp_lib.compute_adapter(JSON.stringify(json_input_data)));
 
 		return _id;
 	}  	

@@ -18,23 +18,6 @@ chai.use(require('chai-json-schema'));
 
 describe('root', function() {
 
-	it('Server root should return \"Hello!\"', function(done) {
-
-		var entry_point = '/';
-		var expected_json = {
-			"message": "Hello!"
-		}
-
-		api.get(entry_point)
-		.set('Accept', 'application/json')
-		.expect(200)
-		.end( function(err, res) {
-			if (err) return done(err);
-			expect(res.body).to.be.jsonSchema(expected_json);
-			done();
-		});
-  	});
-
   	it('API root should provide HATEOAS navigation', function(done) {
   		
   		var entry_point = '/'+pjson.name;
