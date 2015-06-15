@@ -1,39 +1,35 @@
 extern crate rand;
 
-use rustc_serialize::json::{self, Json, ToJson};
-use rusttsp::city::City;
+use rustc_serialize::json::{Json, ToJson};
+use libtsp::city::City;
 use rand::Rng;
 use std::collections::BTreeMap;
 
-#[derive(Clone)]
+#[derive(Clone, RustcEncodable, RustcDecodable)]
 pub struct Graph {
-    cities: Vec<City>,
+    nodes: Vec<City>,
 }
 
 impl Graph {
 
     pub fn get_graph_size(&self) -> usize {
-    	self.cities.len()
+    	self.nodes.len()
     }
 
     pub fn get_map(&mut self) -> Vec<City> {
-    	self.cities.clone()
+    	self.nodes.clone()
     }
-
-    fn get_node_at_index(&self, it: usize) -> City {
-        self.cities[it]
-    }
-
+    
 }
 
 pub struct GraphBuilder {
-    cities: Vec<City>,
+    nodes: Vec<City>,
 }
 
 impl ToJson for Graph {
     fn to_json(&self) -> Json {
         let mut d = BTreeMap::new();
-        d.insert("cities".to_string(), self.cities.to_json());
+        d.insert("nodes".to_string(), self.nodes.to_json());
         Json::Object(d)
     }
 }
@@ -43,19 +39,18 @@ impl GraphBuilder {
     /// Constructor for an empty population
 	pub fn new() -> GraphBuilder {
 		GraphBuilder {
-			cities: Vec::new(),
+			nodes: Vec::new(),
 		}
 	}
 
     //Generate a random graph, assuming we always have positive values for x and y on a map
 	pub fn generate_random_graph(&mut self, graph_size: usize, max_x: f64, max_y: f64) -> &mut GraphBuilder {
-        (0..graph_size).map(|i| {
+        (0..graph_size).map(|_| {
             let city = City {
-                            name: "Node", 
-                            x: rand::thread_rng().gen_range(0.0, max_x), 
-                            y: rand::thread_rng().gen_range(0.0, max_y),
+                            name: "Node".to_string(), 
+                            coordinates: (rand::thread_rng().gen_range(0.0, max_x), rand::thread_rng().gen_range(0.0, max_y)),
                         };
-            self.cities.push(city);
+            self.nodes.push(city);
         });
         self
     }
@@ -63,7 +58,7 @@ impl GraphBuilder {
     /// Terminates construction and returns instance
     pub fn finalize(&self) -> Graph {
         Graph { 
-        	cities: self.cities.clone(),
+        	nodes: self.nodes.clone(),
         }
     }
 

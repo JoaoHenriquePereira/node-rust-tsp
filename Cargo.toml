@@ -1,10 +1,10 @@
 [package]
-name = "rust_tsp"
+name = "rusttsp"
 version = "0.1.0"
 authors = ["joaohrpereira <joaohrpereira@gmail.com>"]
 license = ""
 readme = "README.md"
-keywords = ["genetic","algorithm"]
+keywords = ["genetic", "algorithm", "node", "rust"]
 repository = "https://github.com/JoaoHenriquePereira/rust-tsp"
 homepage = "https://github.com/JoaoHenriquePereira/rust-tsp"
 description = """
@@ -12,12 +12,12 @@ A genetic algorithm implementation in Rust.
 """
 
 [lib]
-name = "rust_tsp"
-crate-type = ["dylib"]
+name = "rusttsp"
+crate-type = ["rlib", "dylib"]
 
 [dependencies]
 
-libc				= "*"
-rand 				= "*"
-rustc-serialize 	= "*"
+libc			= "*"
+rand 			= "*"
+rustc-serialize = "*"
 

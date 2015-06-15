@@ -7,19 +7,24 @@
             "type": "string"
         },
         "graph": {
-            "type": "array",
-            "minItems": 10,
-            "uniqueItems": true,
-            "items": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string"
-                    },
-                    "coordinates": {
-                        "type": "array",
-                        "items": {
-                            "type": "number"
+            "type": "object",
+            "properties": {
+                "nodes": {
+                    "type": "array",
+                    "minItems": 10,
+                    "uniqueItems": true,
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "coordinates": {
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                }
+                            }
                         }
                     }
                 }

@@ -28,9 +28,11 @@ describe('compute', function() {
 
   		var bad_request_json = {
   			"graph_type": "u2d-cartesian",	//Unsigned 2d-cartesian coordinates
-  			"graph": [
-  				{ "name": "1", "coordinates": [ "41.1621", "8.6220" ] }, //Not enough nodes and wrong type
-  			],
+  			"graph": {
+  				"nodes": [
+  					{ "name": "1", "coordinates": [ 41.1621, 8.6220 ] }		//Not enough nodes
+				]
+  			},
   			"options": {
   				"mutation_rate": 0.015,
   				"elitism": true,
@@ -41,19 +43,21 @@ describe('compute', function() {
 
   		var bad_request_bounds_json = {
   			"graph_type": "u2d-cartesian",	//Unsigned 2d-cartesian coordinates
-  			"graph": [
-  				{ "name": "1", "coordinates": [ 41.1621, 8.6220 ] },
-				{ "name": "2", "coordinates": [ 40.4000, 3.7167 ] },
-				{ "name": "3", "coordinates": [ 13.7563, 100.5018 ] }, 
-				{ "name": "4", "coordinates": [ 33.9253, 18.4239 ] }, 
-				{ "name": "5", "coordinates": [ 37.7833, 122.4167 ] }, 
-				{ "name": "6", "coordinates": [ 37.3544, 121.9692 ] }, 
-				{ "name": "7", "coordinates": [ 23.5500, 46.6333 ] }, 
-				{ "name": "8", "coordinates": [ 33.4500, 70.6667 ] }, 
-				{ "name": "9", "coordinates": [ 32.6500, 16.9167 ] }, 
-				{ "name": "10", "coordinates": [ 48.2000, 16.3667 ] },
-				{ "name": "11", "coordinates": [ 48.2012, 34.3667 ] }
-  			],
+  			"graph": {
+  				"nodes": [
+  					{ "name": "1", "coordinates": [ 41.1621, 8.6220 ] },
+					{ "name": "2", "coordinates": [ 40.4000, 3.7167 ] },
+					{ "name": "3", "coordinates": [ 13.7563, 100.5018 ] }, 
+					{ "name": "4", "coordinates": [ 33.9253, 18.4239 ] }, 
+					{ "name": "5", "coordinates": [ 37.7833, 122.4167 ] }, 
+					{ "name": "6", "coordinates": [ 37.3544, 121.9692 ] }, 
+					{ "name": "7", "coordinates": [ 23.5500, 46.6333 ] }, 
+					{ "name": "8", "coordinates": [ 33.4500, 70.6667 ] }, 
+					{ "name": "9", "coordinates": [ 32.6500, 16.9167 ] }, 
+					{ "name": "10", "coordinates": [ 48.2000, 16.3667 ] },
+					{ "name": "11", "coordinates": [ 48.2012, 34.3667 ] }
+				]
+  			},
   			"options": {
   				"mutation_rate": 0.015,
   				"elitism": true,
@@ -96,19 +100,21 @@ describe('compute', function() {
 
 		var good_request_json = {
   			"graph_type": "u2d-cartesian",	//Unsigned 2d-cartesian coordinates
-  			"graph": [
-  				{ "name": "1", "coordinates": [ 41.1621, 8.6220 ] },
-				{ "name": "2", "coordinates": [ 40.4000, 3.7167 ] },
-				{ "name": "3", "coordinates": [ 13.7563, 100.5018 ] }, 
-				{ "name": "4", "coordinates": [ 33.9253, 18.4239 ] }, 
-				{ "name": "5", "coordinates": [ 37.7833, 122.4167 ] }, 
-				{ "name": "6", "coordinates": [ 37.3544, 121.9692 ] }, 
-				{ "name": "7", "coordinates": [ 23.5500, 46.6333 ] }, 
-				{ "name": "8", "coordinates": [ 33.4500, 70.6667 ] }, 
-				{ "name": "9", "coordinates": [ 32.6500, 16.9167 ] }, 
-				{ "name": "10", "coordinates": [ 48.2000, 16.3667 ] },
-				{ "name": "11", "coordinates": [ 48.2012, 34.3667 ] }
-  			],
+  			"graph": {
+  				"nodes": [
+  					{ "name": "1", "coordinates": [ 41.1621, 8.6220 ] },
+					{ "name": "2", "coordinates": [ 40.4000, 3.7167 ] },
+					{ "name": "3", "coordinates": [ 13.7563, 100.5018 ] }, 
+					{ "name": "4", "coordinates": [ 33.9253, 18.4239 ] }, 
+					{ "name": "5", "coordinates": [ 37.7833, 122.4167 ] }, 
+					{ "name": "6", "coordinates": [ 37.3544, 121.9692 ] }, 
+					{ "name": "7", "coordinates": [ 23.5500, 46.6333 ] }, 
+					{ "name": "8", "coordinates": [ 33.4500, 70.6667 ] }, 
+					{ "name": "9", "coordinates": [ 32.6500, 16.9167 ] }, 
+					{ "name": "10", "coordinates": [ 48.2000, 16.3667 ] },
+					{ "name": "11", "coordinates": [ 48.2012, 34.3667 ] }
+				]
+  			},
   			"options": {
   				"mutation_rate": 0.015,
   				"elitism": true,
