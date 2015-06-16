@@ -1,7 +1,7 @@
-use graph::Graph;
-use tour::HasFitness;
-use tour::Tour;
-use tour::TourBuilder;
+use libtsp::graph::Graph;
+use libtsp::tour::HasFitness;
+use libtsp::tour::Tour;
+use libtsp::tour::TourBuilder;
 
 #[derive(Clone)]
 pub struct Population {

@@ -3,18 +3,16 @@
 //! Status: OnGoing
 //! Guidelines from: https://doc.rust-lang.org/book/testing.html
 
-extern crate rustc_serialize;
+extern crate rusttsp;
 
-use graph::Graph;
-use graph::GraphBuilder;
+use rusttsp::libtsp::graph::Graph;
+use rusttsp::libtsp::graph::GraphBuilder;
 
-use population::Population;
-use population::PopulationBuilder;
+use rusttsp::libtsp::population::Population;
+use rusttsp::libtsp::population::PopulationBuilder;
 
-use rustc_serialize::hex::FromHex;
-
-use tour::Tour;
-use tour::IsValidTSPTour;
+use rusttsp::libtsp::tour::Tour;
+use rusttsp::libtsp::tour::IsValidTSPTour;
 
 static GRAPH_SIZE: usize = 100;
 static MAX_X: f64 = 100.0;
@@ -37,12 +35,12 @@ fn random_graph_generation() {
 	
 	for it in 0..graph_test.len() {
 		// x
-		assert_eq!(true, graph_test[it].0 > 0.0);
-		assert_eq!(true, graph_test[it].1 > 0.0);
+		assert_eq!(true, graph_test[it].coordinates.0 > 0.0);
+		assert_eq!(true, graph_test[it].coordinates.1 > 0.0);
 
 		// y
-		assert_eq!(true, graph_test[it].0 < MAX_X);
-		assert_eq!(true, graph_test[it].1 < MAX_Y);
+		assert_eq!(true, graph_test[it].coordinates.0 < MAX_X);
+		assert_eq!(true, graph_test[it].coordinates.1 < MAX_Y);
 	}
 }
 
@@ -64,7 +62,7 @@ fn random_graph_population() {
 
 	// Check if cities in the tour exist in graph and unique
 	for it in 0..population.get_population_size() {
-		let mut candidate_tour: Tour = population.get_tour(it);
+		let candidate_tour: Tour = population.get_tour(it);
 		assert_eq!(true, Tour::is_valid_tsp_tour(candidate_tour, graph.clone()));
 	}
 }

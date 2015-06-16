@@ -2,12 +2,12 @@ extern crate rand;
 
 use std::mem::swap;
 
-use graph::Graph;
-use population::Population;
-use population::PopulationBuilder;
+use libtsp::graph::Graph;
+use libtsp::population::Population;
+use libtsp::population::PopulationBuilder;
+use libtsp::tour::Tour;
+use libtsp::tour::TourBuilder;
 use rand::Rng;
-use tour::Tour;
-use tour::TourBuilder;
 
 /// Genetic algorithm interface definition
 trait GA {

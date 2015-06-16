@@ -1,23 +1,23 @@
 [package]
-name = "ga"
+name = "rusttsp"
 version = "0.1.0"
 authors = ["joaohrpereira <joaohrpereira@gmail.com>"]
 license = ""
 readme = "README.md"
-keywords = ["genetic","algorithm"]
+keywords = ["genetic", "algorithm", "node", "rust"]
 repository = "https://github.com/JoaoHenriquePereira/rust-tsp"
 homepage = "https://github.com/JoaoHenriquePereira/rust-tsp"
-documentation = "http://www.codeandunicorns.com/"
 description = """
 A genetic algorithm implementation in Rust.
 """
 
+[lib]
+name = "rusttsp"
+crate-type = ["rlib", "dylib"]
+
 [dependencies]
 
+libc			= "*"
 rand 			= "*"
-getopts 		= "*"
-rustc-serialize 	= "*"
+rustc-serialize = "*"
 
-[dependencies.mongodb]
-
-path = "../mongo-rust-driver-prototype"

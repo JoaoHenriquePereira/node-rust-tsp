@@ -1,7 +1,8 @@
 extern crate rand;
+
 use std::fmt;
-use city::City;
-use graph::Graph;
+use libtsp::city::City;
+use libtsp::graph::Graph;
 use rand::{thread_rng, Rng};
 
 pub trait HasFitness {
@@ -12,7 +13,7 @@ pub trait IsValidTSPTour {
 	fn is_valid_tsp_tour(tour: Tour, graph: Graph) -> bool;
 }
 
-#[derive(Clone)]
+#[derive(Clone, RustcEncodable, RustcDecodable)]
 pub struct Tour {
     tour: Vec<City>,
     fitness: f64,
@@ -41,11 +42,11 @@ impl Tour {
 	}
 
 	pub fn sub_tour_between_index(&mut self, start_index: usize, end_index: usize) -> Vec<City> {
-		(start_index..end_index).map(|i| {self.tour[i]}).collect::<Vec<City>>()
+		(start_index..end_index).map(|i| {self.tour[i].clone()}).collect::<Vec<City>>()
 	}
 
 	/// Warning: Method is tightly coupled with the interface but remains cohesive
-	fn get_distance(&mut self) -> f64 {
+	fn calc_distance(&mut self) -> f64 {
 
 		let mut distance: f64 = 0.0;
 
@@ -61,8 +62,8 @@ impl Tour {
 				to_city = self.tour[0].clone();
 			}
 
-			let x_dist = (from_city.0 - to_city.0).abs();
-			let y_dist = (from_city.1 - to_city.1).abs();
+			let x_dist = (from_city.coordinates.0 - to_city.coordinates.0).abs();
+			let y_dist = (from_city.coordinates.1 - to_city.coordinates.1).abs();
 			distance += ( (x_dist * x_dist) + (y_dist * y_dist) ).sqrt();
 
 		}
@@ -75,7 +76,7 @@ impl HasFitness for Tour {
     
 	fn calc_fitness(&mut self) -> f64 {
 		if self.fitness == 0.0 {
-			self.fitness = 1.0 / self.get_distance();
+			self.fitness = 1.0 / self.calc_distance();
 		}
 
 		self.fitness
