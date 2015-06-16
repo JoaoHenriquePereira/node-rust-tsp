@@ -17,7 +17,7 @@ use std::collections::BTreeMap;
 use std::ffi::{CString, CStr};
 use std::str;
 
-static RUN_SIZE: usize = 100;
+static RUN_SIZE: usize = 1000;
 
 /// External adapter using ffi
 #[no_mangle]
@@ -50,7 +50,7 @@ fn compute(input: &str) -> *const c_char {
     }
 
     let fittest_solution: Tour = tsp.get_fittest_result();
-
+    //let distance = fittest_solution.get_distance();
     /*
     
     println!("Tour: {}", fittest_solution);

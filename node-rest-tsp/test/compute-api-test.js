@@ -15,8 +15,6 @@ var chai 			= require('chai');
 
 chai.use(require('chai-json-schema'));
 
-
-
 describe('compute', function() {
 
   	it('Must filter input for bad requests', function(done) {

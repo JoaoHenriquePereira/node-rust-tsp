@@ -1,9 +1,9 @@
 {
     "title": "result api output schema v1",
     "type": "object",
-    "required": ["graph", "results","_links"],
+    "required": ["graph", "fitness","_links"],
     "properties": {
-        "graph": {
+        "tour": {
             "type": "array",
             "uniqueItems": true,
             "items": {
@@ -21,16 +21,11 @@
                 }
             }
         },
-        "results": {
-            "type": "object",
-            "properties": {
-                "final_distance": {
-                    "type": "number"
-                },
-                "improvement": {
-                    "type": "number"
-                }
-            }
+        "distance": {
+            "type": "number"
+        },
+        "fitness": {
+            "type": "number"
         },
         "_links": {
             "type": "object"

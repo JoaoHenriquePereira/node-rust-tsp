@@ -133,7 +133,29 @@ var ResultResponse = (function () {
     ResultResponse.prototype.constructor = ResultResponse;
 
     function ResultResponse(uri) {
-        /*TODO*/
+        this.response = new hal.Resource({
+          tour: null,
+          distance: null,
+          fitness: null,
+          _links: []
+        }, uri);
+        return this;
+    }
+
+    ResultResponse.prototype.build = function (cached_result) {
+
+        var parsed_cached_result = JSON.parse(cached_result);
+
+        this.response.tour          = parsed_cached_result.tour;
+        this.response.distance      = 1 / parsed_cached_result.fitness;
+        this.response.fitness       = parsed_cached_result.fitness;
+        this.response.link('compute', '/'+pjson.name+'/compute');
+
+        return this;
+    }
+
+    ResultResponse.prototype.finish = function () {
+        return this.response;
     }
 
     return ResultResponse;

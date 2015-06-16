@@ -72,7 +72,11 @@ module.exports.setup = function (server, model) {
 
 		var result = model.get(req.params.id);
 		if(result != undefined){
-			res.send(200, result);
+			Response = new ResponseBuilder.ResultResponse('/'+pjson.name+'/result/'+req.params.id)
+												.build(result)
+												.finish();
+
+			res.send(200, Response);
 		} else {
 			Response = new ResponseBuilder.ErrorResponse('/'+pjson.name+'/result/'+req.params.id)
 												.build([{ 

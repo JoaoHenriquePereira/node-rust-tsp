@@ -17,7 +17,6 @@ pub trait IsValidTSPTour {
 pub struct Tour {
     tour: Vec<City>,
     fitness: f64,
-    distance: f64,
 }
 
 impl Tour {
@@ -47,7 +46,7 @@ impl Tour {
 	}
 
 	/// Warning: Method is tightly coupled with the interface but remains cohesive
-	fn get_distance(&mut self) -> f64 {
+	fn calc_distance(&mut self) -> f64 {
 
 		let mut distance: f64 = 0.0;
 
@@ -69,7 +68,6 @@ impl Tour {
 
 		}
 
-		self.distance = distance;
 		distance
 	}
 }
@@ -78,7 +76,7 @@ impl HasFitness for Tour {
     
 	fn calc_fitness(&mut self) -> f64 {
 		if self.fitness == 0.0 {
-			self.fitness = 1.0 / self.get_distance();
+			self.fitness = 1.0 / self.calc_distance();
 		}
 
 		self.fitness
@@ -128,7 +126,6 @@ impl fmt::Display for Tour {
 pub struct TourBuilder {
 	tour: Vec<City>,
     fitness: f64,
-    distance: f64,
 }
 
 impl TourBuilder {
@@ -138,7 +135,6 @@ impl TourBuilder {
 		TourBuilder {
 			tour: Vec::new(),
 			fitness: 0.0,
-			distance: 0.0,
 		}
 	}
 
@@ -160,7 +156,6 @@ impl TourBuilder {
         Tour { 
         	tour: self.tour.clone(),
         	fitness: self.fitness,
-        	distance: self.distance,
         }
     }
 }

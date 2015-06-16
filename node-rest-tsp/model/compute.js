@@ -33,9 +33,15 @@ var ComputeModel = (function () {
 
 	ComputeModel.prototype.compute = function (json_input_data) {
 
-		// Call our lib
+		// Generate Key
+		var current_date = (new Date()).valueOf().toString();
+		var random = Math.random().toString();
+		var _id = crypto.createHash('sha1').update(current_date + random).digest('hex');
 		
-		console.log(rust_tsp_lib.compute_adapter(JSON.stringify(json_input_data)));
+		//Call lib
+		var result = rust_tsp_lib.compute_adapter(JSON.stringify(json_input_data));
+
+		this.set(_id, result);
 
 		return _id;
 	}  	
