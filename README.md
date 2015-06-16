@@ -7,7 +7,7 @@ Playing with rust on the travelling salesman problem and genetic algorithm.
 node-rest-tsp
 ==========
 
-Exposes the rust tsp lib
+Exposes the rust tsp lib via REST. All data is exchanged as JSON.
 
 # Libs
 
