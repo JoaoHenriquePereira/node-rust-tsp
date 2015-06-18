@@ -14,6 +14,7 @@ var chai 					= require('chai');
 	acceptable_graph_types 	= new Enum(['u2d-cartesian']);				//For now all we'll have is this one
 
 chai.use(require('chai-json-schema'));
+
 var Response = null;
 
 function filter_post_input(req_body) {

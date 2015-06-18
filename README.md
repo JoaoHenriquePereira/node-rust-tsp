@@ -4,8 +4,7 @@ rust-tsp
 Playing with rust on the travelling salesman problem and genetic algorithm.
 
 
-node-rest-tsp
-==========
+# node-rest-tsp
 
 Exposes the rust tsp lib via REST. All data is exchanged as JSON.
 
@@ -22,3 +21,7 @@ Exposes the rust tsp lib via REST. All data is exchanged as JSON.
 * <a href="http://mcavage.me/node-restify/">restify</a>
 * <a href="https://github.com/visionmedia/supertest">supertest</a>
 * <a href="http://underscorejs.org/">underscore</a>
+
+# Ongoing
+
+* Refactoring with ECMAScript 6
