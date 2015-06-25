@@ -8,10 +8,11 @@
 
 var chai 					= require('chai');
 	Enum					= require('enum');
+	acceptable_graph_types 	= new Enum(['u2d-cartesian']);	//For now all we'll have is this one
 	hal 					= require('hal');
 	pjson 					= require('../package.json');
 	ResponseBuilder			= require('../response');
-	acceptable_graph_types 	= new Enum(['u2d-cartesian']);				//For now all we'll have is this one
+	router 					= require('koa-router')();
 
 chai.use(require('chai-json-schema'));
 
@@ -46,54 +47,65 @@ function filter_post_input(req_body) {
 }
 
 module.exports.setup = function (server, model) {
-	
-	// Compute POST handler 
-	function compute_post(req, res, next) {
 
-		if(filter_post_input(req.body)){
+	var compute = {
 
-			// Process request and generate result
-			var compute_result = model.compute(req.body);
-			// Prepare response
-			Response = new ResponseBuilder.ComputeResponse('/'+pjson.name+'/compute')
-												.build(compute_result)
-												.finish();
+		// Compute POST handler 
+  		post: function *(){
+  			console.log(this.request.body);
+  			if(filter_post_input(this.request.body)){
+
+
+  				console.log(this.request.body);
+
+				// Process request and generate result
+				var compute_result = model.compute(this.request.body);
+				// Prepare response
+				Response = new ResponseBuilder.ComputeResponse('/'+pjson.name+'/compute')
+													.build(compute_result)
+													.finish();
 
 			
-			res.send(200, Response);
-		} else {
-			res.send(400, Response);
-		}
+				this.status = 200;
+				this.body = Response;
+			} else {
+				this.status = 400;
+				this.body = Response;
+			}
+  		},
 
-		return next();
-	}
+  		// Result GET handler 
+  		result_get: function *(id){
 
-	// Result GET handler 
-	function result_get(req, res, next) {
+			if(id != undefined){
+				Response = new ResponseBuilder.ResultResponse('/'+pjson.name+'/result/'+id)
+													.build(result)
+													.finish();
 
-		var result = model.get(req.params.id);
-		if(result != undefined){
-			Response = new ResponseBuilder.ResultResponse('/'+pjson.name+'/result/'+req.params.id)
-												.build(result)
-												.finish();
+				this.status = 200;
+				this.body = Response;
+			} else {
+				Response = new ResponseBuilder.ErrorResponse('/'+pjson.name+'/result/'+id)
+													.build([{ 
+    														message: 'This id is invalid or it has expired',
+    														dataPath: 'problem: ' + id
+    												}])
+    												.addLink('compute', '/'+pjson.name+'/compute')
+													.finish();
+				this.status = 400;
+				this.body = Response;
+			}
+		},
 
-			res.send(200, Response);
-		} else {
-			Response = new ResponseBuilder.ErrorResponse('/'+pjson.name+'/result/'+req.params.id)
-												.build([{ 
-    													message: 'This id is invalid or it has expired',
-    													dataPath: 'problem: ' + req.params.id
-    											}])
-    											.addLink('compute', '/'+pjson.name+'/compute')
-												.finish();
-			res.send(400, Response);
-		}
-
-		return next();
 	}
 
 	// Wiring
 	var API_PATH = '/'+pjson.name;
-	server.post({path: API_PATH+'/compute', version: '0.0.1'}, compute_post);
-	server.get({path: API_PATH+'/result/:id', version: '0.0.1'}, result_get);
+
+	router
+		.post(API_PATH+'/compute', compute.post)
+		.get(API_PATH+'/result/:id', compute.result_get);
+
+	server.use(router.routes());  
+
 }

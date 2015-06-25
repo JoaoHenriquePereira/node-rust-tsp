@@ -21,7 +21,6 @@ describe('root', function() {
   	it('API root should provide HATEOAS navigation', function(done) {
   		
   		var entry_point = '/'+pjson.name;
-  		var invalid_version = '9'+pjson.version;
 
   		var expected_json_schema = require('../schemas/root-api-schema-output.json');
 
@@ -34,17 +33,6 @@ describe('root', function() {
 
 		expected_json.link('compute', '/'+pjson.name+'/compute');
 
-		// No version specified
-		api.get(entry_point)
-		.set('Accept', 'application/json')
-		.expect(200)
-		.end( function(err, res) {
-			if (err) return done(err);
-			expect(res.body).to.be.jsonSchema(expected_json_schema);
-			//Warning not a fan of comparing by stringify like this
-			expect(JSON.stringify(res.body)).to.be.equal(JSON.stringify(expected_json));
-		});
-
 		// Correct version specified
 		api.get(entry_point)
 		.set('Accept', 'application/json')
@@ -56,15 +44,7 @@ describe('root', function() {
 			expect(JSON.stringify(res.body)).to.be.equal(JSON.stringify(expected_json));
 		});
 
-		// Incorrect version specified
-		api.get(entry_point)
-		.set('Accept', 'application/json')
-		.set('Accept-Version', invalid_version)
-		.expect(400) // Should be 501?
-		.end( function(err, res) {
-			if (err) return done(err);
-			done();
-		});
+		done();
   	});
 
 });

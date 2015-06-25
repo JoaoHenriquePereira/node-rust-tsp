@@ -1,4 +1,4 @@
-// node-rest-tsp 0.0.1
+// node-rest-tsp 0.0.2
 // Exposing rust-tsp via nodejs rest API
 // Repo: https://github.com/JoaoHenriquePereira/node-rest-tsp
 
@@ -7,22 +7,17 @@
 //
 
 // Includes
-var fs 		= require('fs');
-	restify = require('restify');
+var fs 			= require('fs');
+	koa 		= require('koa');
+    server 		= koa();
 	
 // Server Config
 var port 	= process.env.PORT || 8080;
+server.name = 'myserver@localhost'
 
 // Cache Model params
 var stdTTL = 0; 		//Default
 var checkperiod = 600;	//Default
-
-// Serve
-var server = restify.createServer({'name': 'node-rest-tsp'});
-
-server.use(restify.fullResponse()); // Set up default headers
-server.use(restify.bodyParser()); 	// Remap the body content of a request
-
 
 // Bluntly add our model
 var modelFile = fs.readdirSync('model')[0];
@@ -50,11 +45,9 @@ controllerFiles.forEach(function (controllerFile) {
 	}
 });
 
-
-
 // Start listening
 server.listen(port, function () {
-	console.log('%s listening at %s', server.name, server.url);
+	console.log('%s listening at %s', server.name, port);
 });
 
 

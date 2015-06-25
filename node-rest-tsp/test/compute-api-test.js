@@ -20,7 +20,6 @@ describe('compute', function() {
   	it('Must filter input for bad requests', function(done) {
   		
   		var entry_point = '/'+pjson.name+'/compute'
-  		var invalid_version = '9'+pjson.version;
 
   		var expected_json_schema = require('../schemas/compute-api-schema-output.json');
 
@@ -75,15 +74,6 @@ describe('compute', function() {
 			expect(res.body).to.be.jsonSchema(expected_json_schema);
 		});
 
-		// Test bad version
-		api.post(entry_point)
-		.set('Accept', 'application/json')
-		.set('Accept-Version', invalid_version)
-		.send(bad_request_bounds_json)
-		.expect(400)
-		.end( function(err, res) {
-			if (err) return done(err);
-		});
 		done();
   	});
 
