@@ -1,30 +1,31 @@
+'use strict';
+
 // node-rest-tsp 0.0.1
 // Exposing rust-tsp via nodejs rest API
-// Date: 5th June 2015
 // Repo: https://github.com/JoaoHenriquePereira/node-rest-tsp
 
 //
 // Root Controller Test
 //
 
-var chai 			= require('chai');
-	expect 			= require('chai').expect,
-	hal 			= require('hal');
-	pjson 			= require('../package.json');
-	supertest 		= require('supertest'),
-	api 			= supertest('http://localhost:8080');
+const chai = require('chai');
+const	expect = require('chai').expect;
+const	hal = require('hal');
+const	pjson = require('../package.json');
+const	supertest = require('supertest');
+const	api = supertest('http://localhost:8080');
 
 chai.use(require('chai-json-schema'));
 
 describe('root', function() {
 
   	it('API root should provide HATEOAS navigation', function(done) {
-  		
-  		var entry_point = '/'+pjson.name;
 
-  		var expected_json_schema = require('../schemas/root-api-schema-output.json');
+  		let entry_point = '/'+pjson.name;
 
-  		var expected_json = new hal.Resource({
+  		let expected_json_schema = require('../schemas/root-api-schema-output.json');
+
+  		let expected_json = new hal.Resource({
 			name: pjson.name,
 			version: pjson.version,
 			repository: pjson.repository,

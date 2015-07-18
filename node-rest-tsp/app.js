@@ -1,3 +1,5 @@
+'use strict';
+
 // node-rest-tsp 0.0.2
 // Exposing rust-tsp via nodejs rest API
 // Repo: https://github.com/JoaoHenriquePereira/node-rest-tsp
@@ -7,41 +9,41 @@
 //
 
 // Includes
-var fs 			= require('fs');
-	koa 		= require('koa');
-    server 		= koa();
-	
+const fs = require('fs');
+const	koa = require('koa');
+const server = koa();
+
 // Server Config
-var port 	= process.env.PORT || 8080;
+const port 	= process.env.PORT || 8080;
 server.name = 'myserver@localhost'
 
 // Cache Model params
-var stdTTL = 0; 		//Default
-var checkperiod = 600;	//Default
+const stdTTL = 0; 		//Default
+const checkperiod = 600;	//Default
 
 // Bluntly add our model
-var modelFile = fs.readdirSync('model')[0];
-var model;
+let modelFile = fs.readdirSync('model')[0];
+let model;
 
-if (modelFile.indexOf('.js') === -1) {                      
-	return;                                                           
-} else {                                                      
-	modelFile = modelFile.replace('.js', '');             
-	model = require('./model/' + modelFile); 
+if (modelFile.indexOf('.js') === -1) {
+	return;
+} else {
+	modelFile = modelFile.replace('.js', '');
+	model = require('./model/' + modelFile);
 }
 
 // Add the routing controllers
-var computeModel = new model(stdTTL, checkperiod);
-var controllerFiles = fs.readdirSync('controllers');
+let computeModel = new model(stdTTL, checkperiod);
+let controllerFiles = fs.readdirSync('controllers');
 
-controllerFiles.forEach(function (controllerFile) { 
-	if (controllerFile.indexOf('.js') === -1) {                      
-		return;                                                           
-	} else {                                                      
-		controllerFile = controllerFile.replace('.js', '');             
-		var controller = require('./controllers/' + controllerFile); 
+controllerFiles.forEach(function (controllerFile) {
+	if (controllerFile.indexOf('.js') === -1) {
+		return;
+	} else {
+		controllerFile = controllerFile.replace('.js', '');
+		let controller = require('./controllers/' + controllerFile);
 		// Model is accessed by all controllers, no biggie since we are going for simplicity
-		controller.setup(server, computeModel);                                          
+		controller.setup(server, computeModel);
 	}
 });
 
