@@ -11,7 +11,8 @@
 		"ffi": "*",
 		"hal": "*",
 		"node-cache": "*",
-		"restify": "*",
+		"koa": "*",
+		"koa-router": "*",
 		"supertest": "*",
 		"underscore": "*"
 	},
