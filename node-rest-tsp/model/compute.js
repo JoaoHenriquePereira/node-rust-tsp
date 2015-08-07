@@ -13,8 +13,6 @@ const assert = require('assert');
 const	crypto = require('crypto');
 const	ffi = require('ffi');
 
-let cache;
-
 /**
  * Represents the ComputeModel for managing results and accessing rust-tsp,
  * In fact it's a cache manager and rust-tsp DAO
@@ -22,41 +20,36 @@ let cache;
  * @param {number}  checkperiod     the .
  */
 
-
+let cache;
 const library_name = '../target/debug/librusttsp';
 let rust_tsp_lib = ffi.Library(library_name, {
 		'compute_adapter': ['string', ['string']]
 });
 
-const ComputeModel = (function () {
-  	function ComputeModel(stdTTL, checkperiod) {
+function ComputeModel(stdTTL, checkperiod) {
   		cache = new NodeCache( { stdTTL: stdTTL, checkperiod: checkperiod } );
-  	}
+}
 
-	ComputeModel.prototype.set = function (key, val, ttl) {
-		return cache.set( key, val, ttl);
-	}
+ComputeModel.prototype.set = function (key, val, ttl) {
+	return cache.set( key, val, ttl);
+}
 
-	ComputeModel.prototype.get = function (key) {
-		return cache.get( key );
-	}
+ComputeModel.prototype.get = function (key) {
+	return cache.get( key );
+}
 
-	ComputeModel.prototype.compute = function (json_input_data) {
+ComputeModel.prototype.compute = function (json_input_data) {
+	// Generate Key
+	let current_date = (new Date()).valueOf().toString();
+	let random = Math.random().toString();
+	let _id = crypto.createHash('sha1').update(current_date + random).digest('hex');
 
-		// Generate Key
-		var current_date = (new Date()).valueOf().toString();
-		var random = Math.random().toString();
-		var _id = crypto.createHash('sha1').update(current_date + random).digest('hex');
+	//Call lib
+	let result = rust_tsp_lib.compute_adapter(JSON.stringify(json_input_data));
 
-		//Call lib
-		var result = rust_tsp_lib.compute_adapter(JSON.stringify(json_input_data));
+	this.set(_id, result);
 
-		this.set(_id, result);
-
-		return _id;
-	}
-
-  	return ComputeModel;
-})();
+	return _id;
+}
 
 module.exports = ComputeModel;

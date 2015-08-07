@@ -99,7 +99,6 @@ module.exports.setup = function (server, model) {
 
 	// Wiring
 	const API_PATH = '/'+pjson.name;
-
 	router
 		.post(API_PATH+'/compute', compute.post)
 		.get(API_PATH+'/result/:id', compute.result_get);

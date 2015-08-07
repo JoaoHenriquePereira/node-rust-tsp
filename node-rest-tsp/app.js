@@ -15,10 +15,10 @@ const server = koa();
 
 // Server Config
 const port 	= process.env.PORT || 8080;
-server.name = 'myserver@localhost'
+server.name = 'server@localhost'
 
 // Cache Model params
-const stdTTL = 0; 		//Default
+const stdTTL = 0; 				//Default
 const checkperiod = 600;	//Default
 
 // Bluntly add our model
