@@ -11,7 +11,7 @@ Exposes the rust tsp lib via REST. All data is exchanged as JSON.
 
 ```
 Rust - curl -sSf https://static.rust-lang.org/rustup.sh | sh
-Node
+Node - brew install node
 ```
 
 ## Install and run
