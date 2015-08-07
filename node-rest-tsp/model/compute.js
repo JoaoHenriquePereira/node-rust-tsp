@@ -23,7 +23,7 @@ let cache;
  */
 
 
-const library_name = '../target/debug/librust_tsp';
+const library_name = '../target/debug/librusttsp';
 let rust_tsp_lib = ffi.Library(library_name, {
 		'compute_adapter': ['string', ['string']]
 });

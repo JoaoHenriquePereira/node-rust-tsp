@@ -3,12 +3,24 @@ rust-tsp
 
 Playing with rust on the travelling salesman problem and genetic algorithm.
 
-
 # node-rest-tsp
 
 Exposes the rust tsp lib via REST. All data is exchanged as JSON.
 
-# Libs
+## Requirements
+
+```
+Rust - curl -sSf https://static.rust-lang.org/rustup.sh | sh
+Node
+```
+
+## Install and run
+
+```
+cargo build && cd node-rest-tsp && npm i && node app.js
+```
+
+## Node dependencies
 
 * <a href="http://chaijs.com/">chai</a>
 * <a href="http://chaijs.com/plugins/chai-json-schema">chai json validator</a>
@@ -21,7 +33,3 @@ Exposes the rust tsp lib via REST. All data is exchanged as JSON.
 * <a href="http://mcavage.me/node-restify/">restify</a>
 * <a href="https://github.com/visionmedia/supertest">supertest</a>
 * <a href="http://underscorejs.org/">underscore</a>
-
-# Ongoing
-
-* Refactoring with ECMAScript 6
