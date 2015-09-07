@@ -1,10 +1,10 @@
 [package]
 name = "rusttsp"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["joaohrpereira <joaohrpereira@gmail.com>"]
 license = ""
 readme = "README.md"
-keywords = ["genetic", "algorithm", "node", "rust"]
+keywords = ["genetic", "algorithm", "node", "rust", "x"]
 repository = "https://github.com/JoaoHenriquePereira/rust-tsp"
 homepage = "https://github.com/JoaoHenriquePereira/rust-tsp"
 description = """
