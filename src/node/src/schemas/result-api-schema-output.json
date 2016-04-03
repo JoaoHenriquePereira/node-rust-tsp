@@ -1,0 +1,38 @@
+{
+  "properties": {
+    "_links": {
+      "type": "object"
+    },
+    "distance": {
+      "type": "number"
+    },
+    "fitness": {
+      "type": "number"
+    },
+    "tour": {
+      "items": {
+        "properties": {
+          "coordinates": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "graph",
+    "fitness",
+    "_links"
+  ],
+  "title": "result api output schema v1",
+  "type": "object"
+}

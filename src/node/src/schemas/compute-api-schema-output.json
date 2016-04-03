@@ -1,0 +1,33 @@
+{
+  "properties": {
+    "_errors": {
+      "items": {
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "_links": {
+      "type": "object"
+    },
+    "code": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "code",
+    "_links"
+  ],
+  "title": "compute api output schema v1",
+  "type": "object"
+}

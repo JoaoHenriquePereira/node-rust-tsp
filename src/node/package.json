@@ -1,0 +1,39 @@
+{
+  "name": "node-rest-tsp",
+  "version": "0.0.1",
+  "description": "Node REST with rust-tsp",
+  "license": "MIT",
+  "main": "./src/node/app.js",
+  "repository": "https://github.com/JoaoHenriquePereira/node-rest-tsp",
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "enum": "2.3.0",
+    "ffi": "2.0.0",
+    "hal": "0.1.0",
+    "koa": "1.2.0",
+    "koa-router": "5.4.0",
+    "lodash": "4.7.0",
+    "node-cache": "3.2.1"
+  },
+  "devDependencies": {
+    "eslint": "2.5.3",
+    "eslint-config-seegno": "3.1.0",
+    "eslint-plugin-babel": "3.1.0",
+    "jscs": "2.11.0",
+    "jscs-config-seegno": "2.0.0",
+    "mocha": "2.4.5",
+    "pre-commit": "1.1.2",
+    "supertest": "1.2.0"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "options": {
+    "mocha": "--compilers js:babel-register --recursive --require should"
+  },
+  "pre-commit": [
+    "lint"
+  ]
+}

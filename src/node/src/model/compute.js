@@ -23,11 +23,11 @@ const	ffi = require('ffi');
 let cache;
 const library_name = '../target/debug/librusttsp';
 let rust_tsp_lib = ffi.Library(library_name, {
-		'compute_adapter': ['string', ['string']]
+	'compute_adapter': ['string', ['string']]
 });
 
 function ComputeModel(stdTTL, checkperiod) {
-  		cache = new NodeCache( { stdTTL: stdTTL, checkperiod: checkperiod } );
+  cache = new NodeCache( { stdTTL: stdTTL, checkperiod: checkperiod } );
 }
 
 ComputeModel.prototype.set = function (key, val, ttl) {
@@ -38,14 +38,14 @@ ComputeModel.prototype.get = function (key) {
 	return cache.get( key );
 }
 
-ComputeModel.prototype.compute = function (json_input_data) {
+ComputeModel.prototype.compute = function (input) {
 	// Generate Key
-	let current_date = (new Date()).valueOf().toString();
-	let random = Math.random().toString();
-	let _id = crypto.createHash('sha1').update(current_date + random).digest('hex');
+	const currentDate = (new Date()).valueOf().toString();
+	const random = Math.random().toString();
+	const _id = crypto.createHash('sha1').update(`${currentDate}${random}`).digest('hex');
 
 	//Call lib
-	let result = rust_tsp_lib.compute_adapter(JSON.stringify(json_input_data));
+	const result = rust_tsp_lib.compute_adapter(JSON.stringify(input));
 
 	this.set(_id, result);
 
